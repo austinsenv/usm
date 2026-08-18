@@ -3,6 +3,17 @@
 # source the configuration
 source config.env
 
+#
+# CPU CHECK
+#
+
+
+
+
+#
+# MEMORY CHECK
+#
+
 # get the latest memory usage
 MEMTOTAL=$(grep "MemTotal" /proc/meminfo | awk '{print $2}')
 MEMAVAILABLE=$(grep "MemAvailable" /proc/meminfo | awk '{print $2}')
@@ -12,8 +23,8 @@ PERCENT_AVAILABLE=$(awk "BEGIN {printf \"%.2f\", ($MEMAVAILABLE/$MEMTOTAL)*100}"
 
 # determine if an alert should be sent
 if awk "BEGIN {exit !($PERCENT_AVAILABLE >= 100 - ${MEM_TRIGGER%\%})}"; then
-  echo "HEALTHY"
+  echo "MEMORY HEALTHY"
 else
-  echo "UNHEALTHY"
+  echo "MEMORY UNHEALTHY"
 fi
 
